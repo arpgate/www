@@ -1,0 +1,67 @@
+
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <title>arpgate test pages</title>
+
+    <script>
+    function getUser(){
+        var $inputs = $('#checkForm input, #checkForm textarea, #checkForm select');
+        var values = {};
+        $inputs.each(function(i, el) {
+            values[el.name] = $(el).val();
+        });
+
+        var user = new Object();
+        user.username = values.username;
+        user.pwd = values.pwd;
+        user.email = values.email;
+        return user
+    }
+
+    $(document).ready(function(){
+        $('input#submitCheck').click( function() {
+            user = getUser()
+            $.ajax({
+                url: 'v1/check',
+                contentType: 'application/json',
+                type: 'post',
+                dataType: 'json',
+                data: JSON.stringify(user),
+                success: function(data) {
+                           alert(JSON.stringify(data))
+                         },
+                error: function(data) {
+                           alert(JSON.stringify(data))
+                         }
+             });
+        });
+        $('input#submitRegister').click( function() {
+            user = getUser()
+            $.ajax({
+                url: 'v1/register',
+                contentType: 'application/json',
+                type: 'post',
+                dataType: 'json',
+                data: JSON.stringify(user),
+                success: function(data) {
+                           alert(JSON.stringify(data))
+                         },
+                error: function(data) {
+                           alert(JSON.stringify(data))
+                         }
+             });
+        });
+    });
+    </script>
+</head>
+
+<body>
+<h1>check</h1>
+<form id="checkForm" name="checkForm">
+<input type="text" name="username" value="test" />
+<input type="passwort" name="pwd" value="password" />
+<input type="email" name="email" value="test@arpgate.com" />
+<input type="button" id="submitCheck" name="submit"  value="check" />
+<input type="button" id="submitRegister" name="submit"  value="register" />
+</form>
+</body>
